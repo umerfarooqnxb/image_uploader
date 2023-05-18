@@ -26,7 +26,6 @@ app.post('/upload-media', function (req, res, next) {
 },
     (req, res) => {
         const file = req?.file
-        console.log(req?.file)
         res.send({ file })
     })
 

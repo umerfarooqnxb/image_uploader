@@ -3,23 +3,25 @@ const multer = require('multer')
 const multerS3 = require('multer-s3')
 require('dotenv').config()
 
+//  create an instance of S3 client of aws-sdk
 const s3 = new S3({
     region: process.env.AWS_REGION,
     accessKeyId: process.env.AWS_ACCESS_KEY,
     secretAccessKey: process.env.AWS_SECRET_KEY
 })
 
+//  Function to upload the files
 
 const upload = () =>
     multer({
         storage: multerS3({
             s3: s3,
-            bucket: "my-media-uploader",
+            bucket: process.env.AWS_BUCKET_NAME,
 
-            metadata:function (req, file, cb) {
+            metadata: (req, file, cb) => {
                 cb(null, { fieldName: file.fieldname })
             },
-            Key: function (req, file, cb) {
+            Key: (req, file, cb) => {
                 cb(null, Date.now().toString)
             }
         })
@@ -27,7 +29,6 @@ const upload = () =>
 
 
 module.exports = {
-    s3,
     upload
 }
 
