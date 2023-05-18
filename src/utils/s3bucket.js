@@ -17,7 +17,6 @@ const upload = () =>
         storage: multerS3({
             s3: s3,
             bucket: process.env.AWS_BUCKET_NAME,
-
             metadata: (req, file, cb) => {
                 cb(null, { fieldName: file.fieldname })
             },
@@ -26,9 +25,16 @@ const upload = () =>
             }
         })
     })
-
-
+// get signed url 
+const getSignedURLOfFile = async (key) => {
+    return s3.getSignedUrl('getObject', { Bucket: process.env.AWS_BUCKET_NAME, Key: key })
+}
+// delete object
+const deleteFile = async (key)=>{
+    return s3.deleteObject({Bucket: process.env.AWS_BUCKET_NAME, Key: key})
+}
 module.exports = {
-    upload
+    upload,
+    getSignedURLOfFile
 }
 

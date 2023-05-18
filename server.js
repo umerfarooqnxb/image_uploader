@@ -1,5 +1,5 @@
 const express = require('express');
-const { upload } = require('./src/utils/s3bucket');
+const { upload, getSignedURLOfFile } = require('./src/utils/s3bucket');
 
 const images = upload().single('image')
 
@@ -28,5 +28,10 @@ app.post('/upload-media', function (req, res, next) {
         const file = req?.file
         res.send({ file })
     })
+
+app.get('/signed-url/:key', async (req, res) => {
+    const result = await getSignedURLOfFile(req?.params?.key)
+    res.send(result)
+})
 
 app.listen(process.env.PORT, () => console.log(`App is listening on ${process.env.PORT} post`))
