@@ -16,9 +16,9 @@ const app = express()
 // routes to post
 
 app.post('/upload-media', function (req, res, next) {
-    console.log(req)
     images(req, res, (err) => {
         if (err) {
+            console.log(err)
             res.send(err)
         }
         next()
@@ -26,6 +26,7 @@ app.post('/upload-media', function (req, res, next) {
 },
     (req, res) => {
         const file = req?.file
+        console.log(req?.file)
         res.send({ file })
     })
 

@@ -14,11 +14,12 @@ const upload = () =>
     multer({
         storage: multerS3({
             s3: s3,
-            bucket: `my-media-uploader`,
-            metadata: (req, file, cb) => {
+            bucket: "my-media-uploader",
+
+            metadata:function (req, file, cb) {
                 cb(null, { fieldName: file.fieldname })
             },
-            key: (req, file, cb) => {
+            Key: function (req, file, cb) {
                 cb(null, Date.now().toString)
             }
         })
