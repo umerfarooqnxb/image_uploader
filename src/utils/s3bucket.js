@@ -30,11 +30,12 @@ const getSignedURLOfFile = async (key) => {
     return s3.getSignedUrl('getObject', { Bucket: process.env.AWS_BUCKET_NAME, Key: key })
 }
 // delete object
-const deleteFile = async (key)=>{
-    return s3.deleteObject({Bucket: process.env.AWS_BUCKET_NAME, Key: key})
+const deleteFile = async (name) => {
+    return s3.deleteObject({ Bucket: `${process.env.AWS_BUCKET_NAME}`, Key: `${name}` }).promise()
 }
 module.exports = {
     upload,
-    getSignedURLOfFile
+    getSignedURLOfFile,
+    deleteFile
 }
 
